@@ -1,6 +1,5 @@
 import express from "express";
-import initPosRouter from "./src/routes/initpos.route.js"
-import finalPosRouter from "./src/routes/finalpos.route.js"
+import positionRouter from "./src/routes/position.route.js"
 import userRouter from "./src/routes/user.route.js"
 import scoreRouter from "./src/routes/score.route.js"
 import authRouter from "./src/routes/auth.route.js"
@@ -13,8 +12,7 @@ const mongo = new DbConnection()
 mongo.mongoConnect()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use("/api/initpos", initPosRouter)
-app.use("/api/finalpos", finalPosRouter)
+app.use("/api/position", positionRouter)
 app.use('/api/users', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/scores', scoreRouter)
