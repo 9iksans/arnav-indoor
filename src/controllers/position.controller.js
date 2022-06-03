@@ -1,11 +1,27 @@
-import FinalPos from '../models/finalpos.model.js'
+import Position from '../models/position.model.js'
 
 export const findAll = async (req, res) => {
     try {
-        const finalpos = await FinalPos.find({})
+        const position = await Position.find({})
         res.json({
             status: 200,
-            message: finalpos
+            message: position
+        })
+    } catch (error) {
+        res.json({
+            status: 500,
+            message: error
+        })
+    }
+}
+
+export const findMe = async (req, res) => {
+    console.log(req.user)
+    try {
+        const position = await Position.find({userId:req.user._id})
+        res.json({
+            status: 200,
+            message: position
         })
     } catch (error) {
         res.json({
@@ -17,8 +33,8 @@ export const findAll = async (req, res) => {
 
 export const findOne = async (req, res) => {
     try {
-        const finalpos = await FinalPos.findById(req.params.id)
-        if (!finalpos) {
+        const position = await Position.findById(req.params.id)
+        if (!position) {
             return res.status(404).json({
                 status: 404,
                 message: "Data not Found!"
@@ -26,7 +42,7 @@ export const findOne = async (req, res) => {
         }
         res.json({
             status: 200,
-            message: finalpos
+            message: position
         })
     } catch (error) {
         res.json({
@@ -37,15 +53,16 @@ export const findOne = async (req, res) => {
 }
 
 export const create = async (req, res) => {
-    const finalpos = new FinalPos({
-        label: req.body.label,
-        coordinates: req.body.coordinates
+    const position = new Position({
+        userId: req.user._id,
+        initCoordinate: req.body.initCoordinate,
+        finalCoordinate: req.body.finalCoordinate,
     })
     try {
-        const saveFinalPos = await finalpos.save()
+        const savePosition = await position.save()
         res.json({
             status: 200,
-            message: saveFinalPos
+            message: savePosition
         })
     } catch (error) {
         res.json({
@@ -57,15 +74,15 @@ export const create = async (req, res) => {
 
 export const updateOne = async (req, res) => {
     try {
-        const finalpos = await FinalPos.findById(req.params.id)
-        if (!finalpos) {
+        const position = await Position.findById(req.params.id)
+        if (!position) {
             return res.status(404).json({
                 status: 404,
                 message: "Data not Found!"
             })
         }
-        const saveFinalPos = await FinalPos.updateOne({ _id: req.params.id }, { $set: req.body }, { new: true })
-        if (saveFinalPos.modifiedCount == 0 || !saveFinalPos.acknowledged) {
+        const savePosition = await Position.updateOne({ _id: req.params.id }, { $set: req.body }, { new: true })
+        if (savePosition.modifiedCount == 0 || !savePosition.acknowledged) {
             return res.status(403).json({
                 status: 403,
                 message: "Invalid Scheme / Nothing has Changeed"
@@ -73,7 +90,7 @@ export const updateOne = async (req, res) => {
         }
         res.json({
             status: 200,
-            message: await FinalPos.findById(req.params.id)
+            message: await Position.findById(req.params.id)
         })
     } catch (error) {
         res.json({
@@ -85,17 +102,17 @@ export const updateOne = async (req, res) => {
 
 export const deleteOne = async (req, res) => {
     try {
-        const finalpos = await FinalPos.findById(req.params.id)
-        if (!finalpos) {
+        const position = await Position.findById(req.params.id)
+        if (!position) {
             return res.status(404).json({
                 status: 404,
                 message: "Data not Found!"
             })
         }
-        const deleteFinalPos = await FinalPos.remove({ _id: req.params.id })
+        const deletePosition = await Position.remove({ _id: req.params.id })
         res.json({
             status: 200,
-            message: deleteFinalPos
+            message: deletePosition
         })
     } catch (error) {
         res.json({

@@ -2,7 +2,7 @@ import Score from '../models/score.model.js'
 
 export const findAll = async (req, res) => {
     try {
-        const score = await Score.find({username : req.params.username})
+        const score = await Score.find({userId : req.user._id})
         res.json({
             status: 200,
             message: score
@@ -16,7 +16,7 @@ export const findAll = async (req, res) => {
 }
 export const findAccumulate = async (req, res) => {
     try {
-        const score = await Score.find({username : req.params.username})
+        const score = await Score.find({userId : req.user._id})
         var accumulate = 0
         for (let i = 0; i < score.length; i++) {
             accumulate += parseInt(score[i].scores)
@@ -56,7 +56,7 @@ export const findOne = async (req, res) => {
 
 export const create = async (req, res) => {
     const score = new Score({
-        username: req.body.username,
+        userId: req.user._id,
         scores: req.body.score,
     })
     try {

@@ -1,10 +1,12 @@
 
 import mongoose from 'mongoose'
+import Schema from "mongoose"
 
 const Scores = mongoose.Schema({
-    username : {
-        type : String,
-        required : true
+    userId : {
+        type : Schema.Types.ObjectId,
+        required : true,
+        ref: "user"
     },
     scores : {
         type : String,
