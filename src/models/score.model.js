@@ -9,7 +9,7 @@ const Scores = mongoose.Schema({
         ref: "user"
     },
     scores : {
-        type : String,
+        type : Number,
         required : true
     },
    

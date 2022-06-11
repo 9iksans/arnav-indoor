@@ -1,6 +1,11 @@
 import mongoose from 'mongoose'
 import Schema from "mongoose";
 
+const Coordinate = mongoose.Schema({
+    
+   
+})
+
 const Position = mongoose.Schema({
     userId : {
         type : Schema.Types.ObjectId,
@@ -8,12 +13,47 @@ const Position = mongoose.Schema({
         ref: "user"
     },
     initCoordinate : {
-        type : Array,
-        required : true
+        room : {
+            type : String,
+            required : true,
+        },
+        coordinate :{
+            x : {
+                type : Number,
+                required : true,
+            },
+            y : {
+                type : Number,
+                required : true,
+            },
+            z : {
+                type : Number,
+                required : true,
+            }
+        },
+        
+        
     },
     finalCoordinate : {
-        type : Array,
-        required : true
+        room : {
+            type : String,
+            required : true,
+        },
+        coordinate :{
+            x : {
+                type : Number,
+                required : true,
+            },
+            y : {
+                type : Number,
+                required : true,
+            },
+            z : {
+                type : Number,
+                required : true,
+            }
+        },
+        
     },
     createdAt : {
         type : Date,
